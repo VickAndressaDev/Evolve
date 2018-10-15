@@ -4,7 +4,7 @@ Evolve.NET is a C# Evolutionary Algorithm library that simplifies the developmen
 
 ## How to use?
 
-Text ...
+Using for Artificial Intelligence classes.
 
 License
 ----

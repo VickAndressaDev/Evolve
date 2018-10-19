@@ -36,6 +36,10 @@ namespace Evolve.NET.Core
             if (IsFullNewGeneration)
                 return;
 
+            if (m_TempChromosomes.Contains(chromosome)) {
+                return;                    
+            }
+
             m_TempChromosomes.Add(chromosome);
         }
 

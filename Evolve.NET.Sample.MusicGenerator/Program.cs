@@ -2,13 +2,18 @@
 using Evolve.NET.Core.CrossoverMethods;
 using Evolve.NET.Core.MutationMethods;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Evolve.NET.Sample.Math
+namespace Evolve.NET.Sample.MusicGenerator
 {
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
+
             const int POPULATION_SIZE = 200;
             const int CHROMOSOME_SIZE = 16;
             const int GENE_MIN = 0;
@@ -35,5 +40,7 @@ namespace Evolve.NET.Sample.Math
 
             Console.ReadKey();
         }
+
+    }
     }
 }

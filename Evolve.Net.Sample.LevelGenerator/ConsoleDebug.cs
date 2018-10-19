@@ -1,62 +1,53 @@
-﻿using Evolve.NET.Core;
+﻿using Evolve.Net.Sample.LevelGenerator;
+using Evolve.NET.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Evolve.Net.Sample.LevelGenerator
+namespace Evolve.NET.Sample.LevelGenerator
 {
-    class ConsoleDebug<T> : IDebug<T>
+    public class ConsoleDebug<T> : IDebug<T>
     {
+        private IDictionary<char, ConsoleColor> colors;
 
-        private readonly char EMPTY = '.';
-        private readonly char GROUND = '#';
-        private readonly char BLOCK_ITEM = '?'; 
-        private readonly char BLOCK_COIN = '!';
-        private readonly char BLOCK = '@';
-
-        private IDictionary<char, ConsoleColor> m_Colors;
-
-        public ConsoleDebug() {
-
-            m_Colors = new Dictionary<char, ConsoleColor>();
-            m_Colors.Add(EMPTY, System.ConsoleColor.Blue);
-            m_Colors.Add(GROUND, System.ConsoleColor.Green);
-            m_Colors.Add(BLOCK_ITEM, System.ConsoleColor.DarkYellow);
-            m_Colors.Add(BLOCK_COIN, System.ConsoleColor.Yellow);
-            m_Colors.Add(BLOCK, System.ConsoleColor.DarkRed);
-        }
-
-        public void Log(IChromosome<T> chromosome) 
+        public ConsoleDebug()
         {
-            for (int i = 0; i < PatternFactory.PATTER_SIZE; i++)
-            {
-                for (int j = 0; j < chromosome.Length; j++)
-                {
-                    int pattern = (int)(object)chromosome[j];
-                    char tile = PatternFactory.GetPattern(pattern, i);
-                    // Console.Write(tile);
-                    Console.BackgroundColor = m_Colors[tile];
-                    Console.Write(" ");
-
-                }
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.WriteLine();
-            }
-            Console.WriteLine(); 
+            colors = new Dictionary<char, ConsoleColor>();
+            colors.Add(PatternFactory.PATTERN_NONE, ConsoleColor.Blue);
+            colors.Add(PatternFactory.PATTERN_GROUND, ConsoleColor.DarkGray);
+            colors.Add(PatternFactory.PATTERN_BLOCK, ConsoleColor.Gray);
+            colors.Add(PatternFactory.PATTERN_BLOCK_COIN, ConsoleColor.Yellow);
+            colors.Add(PatternFactory.PATTERN_BLOCK_ITEM, ConsoleColor.DarkYellow);
+            colors.Add(PatternFactory.PATTERN_ENEMY, ConsoleColor.Red);
         }
 
         public void Log(IPopulation<T> population)
         {
-            int generation = population.Generation;
             for (int i = 0; i < population.Count; i++)
             {
-                IChromosome<T> chromosome = population[i];
-                Console.WriteLine("Generation {0} - Fitness {1}", generation, chromosome.Fitness);
-                Log(chromosome);
+                Console.WriteLine("Generation {0}\tFitness {1}", population.Generation, population[i].Fitness);
+                Log(population[i]);
+                Console.WriteLine();
             }
-           
+        }
+
+        public void Log(IChromosome<T> chromosome)
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            //Console.WriteLine(chromosome.ToString());
+            for (int i = 0; i < PatternFactory.PATTERN_LENGTH; i++)
+            {
+                for (int j = 0; j < chromosome.Length; j++)
+                {
+                    int pattern = (int)(object)chromosome[j];
+                    char tile = PatternFactory.Patterns[pattern][i];
+                    Console.BackgroundColor = colors[tile];
+                    //Console.Write(tile);
+                    Console.Write(" ");
+                }
+
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine();
+            }
         }
     }
 }
